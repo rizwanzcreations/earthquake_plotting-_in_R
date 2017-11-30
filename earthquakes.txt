@@ -1,0 +1,17 @@
+library(maps)
+library(ggplot2)
+world_map <- map_data("world")
+p <- ggplot() + coord_fixed() + xlab("") + ylab("")
+base_world_messy <- p + geom_polygon(data=world_map, aes(x=long, y=lat, group=group),colour="light green", fill="light green")
+base_world_messy
+cleanup <- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(fill = 'white', colour = 'white'), axis.line = element_line(colour = "white"), legend.position="none",axis.ticks=element_blank(), axis.text.x=element_blank(),axis.text.y=element_blank())
+base_world <- base_world_messy + cleanup
+base_world
+library(readr)
+earthquake <- read_csv("C:/Users/ERROR404/Downloads/Compressed/earthquake/earthquake.csv")
+map_data <- base_world +
+geom_point(data=earthquake,aes(x=longitude, y=latitude), colour="Deep Pink",fill="Pink",pch=21, size=5, alpha=I(0.7))
+map_data
+map_data_sized <- base_world +
+geom_point(data=earthquake,aes(x=longitude, y=latitude, size=earthquake.mag), colour="Deep Pink",fill="Pink",pch=21, alpha=I(0.7))
+map_data_sized
